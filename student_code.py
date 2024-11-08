@@ -90,7 +90,6 @@ def decrypt(C):
   nb_bicaracteres = 256-nb_caracteres
   bicaracteres = [item for item, _ in Counter(cut_string_into_pairs(text)).most_common(nb_bicaracteres)]
   symboles = caracteres + bicaracteres
-  nb_symboles = len(symboles)
 
   #Analyse de fréquences dans des texts en français
   url = "https://www.gutenberg.org/ebooks/4650.txt.utf-8"  
@@ -101,10 +100,10 @@ def decrypt(C):
   symbolesCommunsFR = compteurSymbolesLangueFR.most_common()
   
   #Séparer le cryptogramme en séquences
-  # Séparer C en blocs de 8 bits
+  # Séparer C en sequence de 8 bits
   C_Sequence8bits = [C[i:i+8] for i in range(0, len(C), 8)]
     
-  # Compter la fréquence des blocs dans le texte chiffré
+  # Compter la fréquence des sequences dans le texte chiffré
   compteurSymbolesC = Counter(C_Sequence8bits)
   sequencesCommunesC = compteurSymbolesC.most_common()
   # Associer les symboles les plus fréquents avec les sequences les plus fréquentes
@@ -114,11 +113,11 @@ def decrypt(C):
 
   #Déchiffrement en remplaçant les sequences par les symboles associés
   texteDechiffre = []
-  for bloc in C_Sequence8bits:
-      if bloc in correspondances:
-          texteDechiffre.append(correspondances[bloc])
+  for sequence in C_Sequence8bits:
+      if sequence in correspondances:
+          texteDechiffre.append(correspondances[sequence])
       else:
-          texteDechiffre.append('?')  # Pour les blocs non trouvés
+          texteDechiffre.append('?')  # Pour les sequences non trouvées
   
   M = ''.join(texteDechiffre)
   return M
